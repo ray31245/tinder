@@ -6,6 +6,8 @@ type node struct {
 	content *SinglePerson
 }
 
+// time: O(logN)
+// space: O(M) M = deep of tree
 func insertNode(root *node, newNode *node) *node {
 	if root == nil {
 		return newNode
@@ -20,6 +22,8 @@ func insertNode(root *node, newNode *node) *node {
 	return root
 }
 
+// time: O(logN)
+// space: O(M) M = deep of tree
 func deleteNode(root *node, nodeToDelete *node) *node {
 	if root == nil {
 		return root
@@ -50,6 +54,8 @@ func findSuccessor(root *node) *node {
 	return root
 }
 
+// time: O(M*logN) M = limit
+// space: O(D) D = deep of tree
 func findMatchesWithLimitAndCondition(root *node, match *node, limit int) ([]*node, int) {
 	var res []*node
 

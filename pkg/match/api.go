@@ -20,6 +20,8 @@ func NewMatchSystem() MatchSystem {
 	}
 }
 
+// time: O(logN)
+// space: O(M) M = deep of tree
 func (m *MatchSystem) AddSinglePerson(name string, height uint, gender gender, wantDates int) SinglePerson {
 	p := SinglePerson{
 		ID:             uuid.New(),
@@ -36,6 +38,8 @@ func (m *MatchSystem) AddSinglePerson(name string, height uint, gender gender, w
 	return p
 }
 
+// time: O(logN)
+// space: O(M) M = deep of tree
 func (m *MatchSystem) RemovePerson(id uuid.UUID) {
 	p, ok := m.PersonList[id]
 	if ok {
@@ -49,6 +53,8 @@ func (m *MatchSystem) removeFromMatchSystem(id uuid.UUID) {
 	m.matchTree = deleteNode(m.matchTree, &node{content: p})
 }
 
+// time: O(M*logN) M = limit
+// space: O(D) D = deep of tree
 func (m MatchSystem) MatchPerson(id uuid.UUID, want int) ([]*SinglePerson, int) {
 	res := []*SinglePerson{}
 
@@ -68,6 +74,8 @@ func (m MatchSystem) MatchPerson(id uuid.UUID, want int) ([]*SinglePerson, int) 
 	return res, remaining
 }
 
+// time: O(N)
+// space: O(1)
 func (m MatchSystem) RecordNewMatch(p *SinglePerson, NewMatch []*SinglePerson) {
 	m.mu.Lock()
 	defer m.mu.Unlock()
@@ -88,6 +96,8 @@ func (m MatchSystem) RecordNewMatch(p *SinglePerson, NewMatch []*SinglePerson) {
 	}
 }
 
+// time: O(N)
+// space O(1)
 func Display(p *SinglePerson, N int) []*SinglePerson {
 	res := []*SinglePerson{}
 	count := 0
