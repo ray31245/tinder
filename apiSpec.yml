@@ -1,0 +1,123 @@
+openapi: 3.0.3
+info:
+  version: 1.0.0
+  title: Simple API
+  description: A simple API to illustrate OpenAPI concepts
+
+servers:
+  - url: http://127.0.0.1:8089
+
+components:
+  schemas:
+    resPerson:
+      type: object
+      required:
+        - "ID"
+        - "Match"
+      properties:
+        ID:
+          type: string
+        Match: 
+          type: array
+          items:
+            type: object
+            required:
+              - "name"
+              - "height"
+              - "gender"
+            properties:
+              name:
+                type: string
+              height:
+                type: number
+              gender:
+                type: string
+paths:
+  /add:
+    get:
+      description: add a single person and response possible match person
+      parameters:
+        - name: name
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: height
+          in: query
+          required: true
+          schema:
+            type: number
+        - name: gender
+          in: query
+          required: true
+          schema:
+            type: string
+            enum:
+              - male
+              - female
+        - name: wantedDate
+          in: query
+          required: true
+          description: numbers of want to date
+          schema:
+            type: number
+      responses:
+        '200':
+          description: success add single person, and match some person
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - "ID"
+                  - "Match"
+                properties:
+                  ID:
+                    type: string
+                  Match: 
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/resPerson'
+  /remove:
+    get:
+      description: remove user from match system so that the user cannot be match anymore.
+      parameters:
+        - name: id
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: success to delete user form system
+  /query:
+    get:
+      description: Find the most N possible match single people, where N is request parameter.
+      parameters:
+        - name: id
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: N
+          in: query
+          required: true
+          schema:
+            type: number
+      responses:
+        '200':
+          description: success add single person, and match some person
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - "ID"
+                  - "Match"
+                properties:
+                  ID:
+                    type: string
+                  Match: 
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/resPerson'
